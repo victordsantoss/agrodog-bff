@@ -13,4 +13,4 @@ import AppDataSource from './data-source';
   ],
   exports: [TypeOrmModule],
 })
-export class DatabaseModule { }
+export class DatabaseModule {}

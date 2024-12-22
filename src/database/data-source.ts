@@ -1,16 +1,20 @@
 import { DataSource } from 'typeorm';
 import { User } from './entities/user.entity';
+import { Address } from './entities/address.entity';
+import { Phone } from './entities/phone.entity';
+import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'database',
-  port: 5432,
-  username: 'postgres',
-  password: 'postgres',
-  database: 'agrodog',
+  host: process.env.DATABASE_HOST,
+  port: parseInt(process.env.DATABASE_PORT, 10),
+  username: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
   synchronize: true,
-  logging: false,
-  entities: [User],
+  entities: [User, Address, Phone],
 });
 
 export default AppDataSource;
+
+export const AgrodogForFeature: EntityClassOrSchema[] = [User, Address, Phone];
