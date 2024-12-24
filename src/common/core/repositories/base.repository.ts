@@ -11,7 +11,8 @@ export abstract class BaseRepository<
   Entity,
   CreateInput extends DeepPartial<Entity> = DeepPartial<Entity>,
   UpdateInput = DeepPartial<Entity>,
-> implements IBaseRepository<Entity, CreateInput, UpdateInput> {
+> implements IBaseRepository<Entity, CreateInput, UpdateInput>
+{
   protected readonly repository: Repository<Entity>;
 
   constructor(

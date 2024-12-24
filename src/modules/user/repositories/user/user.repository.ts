@@ -8,7 +8,8 @@ import { CreateUserRequestDto } from '../../dtos/user/create-user.request.dto';
 @Injectable()
 export class UserRepository
   extends BaseRepository<User>
-  implements IUserRepository {
+  implements IUserRepository
+{
   constructor(dataSource: DataSource) {
     super(dataSource, User);
   }

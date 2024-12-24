@@ -25,4 +25,4 @@ import { DataSource } from 'typeorm';
   ],
   exports: [TypeOrmModule, DataSource],
 })
-export class DatabaseModule { }
+export class DatabaseModule {}
