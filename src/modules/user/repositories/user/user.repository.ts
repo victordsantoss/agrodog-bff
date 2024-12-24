@@ -1,20 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 import { User } from 'src/database/entities/user.entity';
-import { CreateUserRequestDto } from '../../dtos/user/create-user.request.dto';
 import { IUserRepository } from './user.repository.interface';
-
+import { BaseRepository } from 'src/common/core/repositories/base.repository';
+import { CreateUserRequestDto } from '../../dtos/user/create-user.request.dto';
 
 @Injectable()
-export class UserRepository implements IUserRepository {
-  constructor(
-    @InjectRepository(User, 'agrodog')
-    private readonly repository: Repository<User>,
-  ) { }
+export class UserRepository
+  extends BaseRepository<User>
+  implements IUserRepository {
+  constructor(dataSource: DataSource) {
+    super(dataSource, User);
+  }
 
-  async create(user: CreateUserRequestDto): Promise<User> {
-    const newUser = this.repository.create(user);
-    return await this.repository.save(newUser);
+  public async create(data: CreateUserRequestDto): Promise<User> {
+    return super.create(data);
   }
 }

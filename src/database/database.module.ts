@@ -1,6 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import AppDataSource from './data-source';
+import { DataSource } from 'typeorm';
 
 @Global()
 @Module({
@@ -11,6 +12,17 @@ import AppDataSource from './data-source';
       autoLoadEntities: true,
     }),
   ],
-  exports: [TypeOrmModule],
+  providers: [
+    {
+      provide: DataSource,
+      useFactory: async () => {
+        if (!AppDataSource.isInitialized) {
+          await AppDataSource.initialize();
+        }
+        return AppDataSource;
+      },
+    },
+  ],
+  exports: [TypeOrmModule, DataSource],
 })
-export class DatabaseModule {}
+export class DatabaseModule { }
