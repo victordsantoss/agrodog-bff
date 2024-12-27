@@ -17,7 +17,7 @@ export class AuthService implements IAuthService {
     @Inject('IPasswordService')
     private readonly passwordService: IPasswordService,
     private readonly jwtService: JwtService,
-  ) { }
+  ) {}
 
   public async login(email: string, password: string): Promise<string> {
     const user = await this.userRepository.findOneBy('email', email);
