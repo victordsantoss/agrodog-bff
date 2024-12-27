@@ -6,8 +6,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { User } from './user.entity'; // Ajuste o caminho conforme necessário
-
+import { User } from './user.entity';
 @Entity({ name: 'tb_phone' })
 export class Phone {
   @PrimaryGeneratedColumn('uuid', {

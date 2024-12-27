@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsEmail, IsOptional, IsEnum, Length } from 'class-validator';
+import { IsString, IsEmail, Length } from 'class-validator';
 
 export class CreateUserRequestDto {
   @ApiProperty({
@@ -27,12 +27,4 @@ export class CreateUserRequestDto {
   @IsString()
   @Length(8, 255)
   password: string;
-
-  @ApiProperty({
-    description: 'Perfil do usuário',
-    example: 'USER',
-  })
-  @IsOptional()
-  @IsEnum(['ADMIN', 'USER'])
-  role?: string;
 }
