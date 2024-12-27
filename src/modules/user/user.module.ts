@@ -6,13 +6,13 @@ import { CreateUserService } from './services/user/create-user/create-user.servi
 import { UserRepository } from './repositories/user/user.repository';
 import { CpfGuard } from 'src/common/guards/cpf.guard';
 import { CommonModule } from 'src/common/common.module';
-import { AuthModule } from '../auth/auth.module';
+import { PasswordModule } from '../password/password.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User], 'agrodog'),
     CommonModule,
-    AuthModule,
+    PasswordModule,
   ],
   controllers: [UserController],
   providers: [
@@ -26,6 +26,6 @@ import { AuthModule } from '../auth/auth.module';
       useClass: UserRepository,
     },
   ],
-  exports: ['ICreateUserService', TypeOrmModule],
+  exports: ['ICreateUserService', 'IUserRepository', TypeOrmModule],
 })
 export class UserModule {}

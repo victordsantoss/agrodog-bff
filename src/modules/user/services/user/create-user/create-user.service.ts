@@ -4,7 +4,7 @@ import { IUserRepository } from '../../../repositories/user/user.repository.inte
 import { UserResponseDto } from '../../../dtos/user/user.response.dto';
 import { User } from 'src/database/entities/user.entity';
 import { ICreateUserService } from './create-user.service.interface';
-import { IPasswordService } from 'src/modules/auth/services/password/password.interface';
+import { IPasswordService } from 'src/modules/password/services/password.interface';
 
 @Injectable()
 export class CreateUserService implements ICreateUserService {
