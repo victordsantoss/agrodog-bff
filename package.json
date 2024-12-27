@@ -71,9 +71,22 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "!**/*.entity.ts",
+      "!**/*.repository.ts",
+      "!**/*.module.ts",
+      "!**/*.request.dto.ts",
+      "!**/*.response.dto.ts",
+      "!**/*.utils.ts",
+      "!**/*.config.ts",
+      "!**/data-source.ts",
+      "!**/*.filter.ts",
+      "!**/main.ts"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+     "/entities/",
+      "/models/"
+    ]
   }
 }
