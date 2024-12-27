@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { CanActivate } from '@nestjs/common';
-import { CpfGuard } from 'src/common/guards/cpf.guard';
+import { CpfGuard } from '../../../../common/guards/cpf.guard';
 import { ICreateUserService } from '../../services/user/create-user/create-user.service.interface';
 import { faker } from '@faker-js/faker';
 
