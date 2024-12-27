@@ -1,6 +1,6 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { AuthRequestDto } from '../dtos/auth.request.dto';
+import { LoginRequestDto } from '../dtos/auth/login.request.dto';
 import { IAuthService } from '../services/auth.interface';
 
 @Controller('auth')
@@ -15,10 +15,22 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Usuário autenticado com sucesso.' })
   @ApiResponse({ status: 400, description: 'Erro de autenticação.' })
   @ApiBody({
-    type: AuthRequestDto,
+    type: LoginRequestDto,
     description: 'Dados de autenticação do usuário',
   })
-  async login(@Body() loginData: AuthRequestDto): Promise<string> {
+  async login(@Body() loginData: LoginRequestDto): Promise<string> {
+    return await this.authService.login(loginData.email, loginData.password);
+  }
+
+  @Post('logout')
+  @ApiOperation({ summary: 'Deslogar usuário' })
+  @ApiResponse({ status: 201, description: 'Usuário deslogado com sucesso.' })
+  @ApiResponse({ status: 400, description: 'Erro de logout.' })
+  @ApiBody({
+    type: LoginRequestDto,
+    description: 'Dados de logout do usuário',
+  })
+  async logout(@Body() loginData: LoginRequestDto): Promise<string> {
     return await this.authService.login(loginData.email, loginData.password);
   }
 }

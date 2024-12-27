@@ -3,6 +3,7 @@ import { User } from './entities/user.entity';
 import { Address } from './entities/address.entity';
 import { Phone } from './entities/phone.entity';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
+import { Session } from './entities/session.entity';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
@@ -12,9 +13,14 @@ const AppDataSource = new DataSource({
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
   synchronize: true,
-  entities: [User, Address, Phone],
+  entities: [User, Address, Phone, Session],
 });
 
 export default AppDataSource;
 
-export const AgrodogForFeature: EntityClassOrSchema[] = [User, Address, Phone];
+export const AgrodogForFeature: EntityClassOrSchema[] = [
+  User,
+  Address,
+  Phone,
+  Session,
+];

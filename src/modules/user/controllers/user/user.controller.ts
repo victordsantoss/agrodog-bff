@@ -11,7 +11,7 @@ export class UserController {
   constructor(
     @Inject('ICreateUserService')
     private readonly createUserService: ICreateUserService,
-  ) { }
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Registrar um novo usuário' })

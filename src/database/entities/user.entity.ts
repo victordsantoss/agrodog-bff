@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Address } from './address.entity';
 import { Phone } from './phone.entity';
+import { Session } from './session.entity';
 
 @Entity({ name: 'tb_user' })
 export class User {
@@ -83,14 +84,6 @@ export class User {
   provider: string;
 
   @Column({
-    name: 'last_login',
-    type: 'timestamp',
-    nullable: true,
-    comment: 'Última data de login do usuário',
-  })
-  lastLogin: Date;
-
-  @Column({
     name: 'birth_date',
     type: 'date',
     nullable: true,
@@ -127,4 +120,7 @@ export class User {
 
   @OneToMany(() => Phone, (phone) => phone.user, { cascade: true })
   phones: Address[];
+
+  @OneToMany(() => Session, (session) => session.user, { cascade: true })
+  sessions: Session[];
 }
