@@ -11,7 +11,7 @@ export class UserController {
   constructor(
     @Inject('ICreateUserService')
     private readonly createUserService: ICreateUserService,
-  ) { }
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Registrar um novo usuário' })
@@ -25,6 +25,6 @@ export class UserController {
   async create(
     @Body() userData: CreateUserRequestDto,
   ): Promise<UserResponseDto> {
-    return await this.createUserService.create(userData);
+    return await this.createUserService.perform(userData);
   }
 }

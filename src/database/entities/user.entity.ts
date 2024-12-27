@@ -32,6 +32,7 @@ export class User {
     type: 'varchar',
     length: 255,
     nullable: false,
+    unique: true,
     comment: 'Nome da ação',
   })
   email: string;

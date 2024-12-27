@@ -23,7 +23,6 @@ export class CpfGuard implements CanActivate {
     if (!isValid) {
       throw new BadRequestException('CPF inválido');
     }
-
     return true;
   }
 }
