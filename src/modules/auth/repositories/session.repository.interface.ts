@@ -8,4 +8,6 @@ export interface ISessionRepository
     Session,
     CreateSessionRequestDto,
     UpdateSessionRequestDto
-  > {}
+  > {
+  findActiveSessions(userId: string): Promise<Session[]>;
+}

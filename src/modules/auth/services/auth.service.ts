@@ -15,6 +15,7 @@ import { AuthenticatedUserRequestDto } from 'src/common/core/dtos/auth.request.d
 @Injectable()
 export class AuthService implements IAuthService {
   constructor(
+    @Inject('CACHE_MANAGER') private readonly cacheManager: Cache,
     @Inject('IUserRepository')
     private readonly userRepository: IUserRepository,
     @Inject('ISessionRepository')
@@ -22,7 +23,6 @@ export class AuthService implements IAuthService {
     @Inject('IPasswordService')
     private readonly passwordService: IPasswordService,
     private readonly jwtService: JwtService,
-    @Inject('CACHE_MANAGER') private readonly cacheManager: Cache,
   ) { }
 
   public async login(email: string, password: string): Promise<string> {
@@ -39,10 +39,17 @@ export class AuthService implements IAuthService {
       throw new UnauthorizedException('Email ou senha inválidos');
     }
 
-    //    const existingSession = await this.sessionRepository.findOne({
-    //   where: { user },
-    // });
+    const existingSessions = await this.sessionRepository.findActiveSessions(
+      user.id,
+    );
 
+    if (existingSessions.length > 0) {
+      for (const session of existingSessions) {
+        session.endDate = new Date();
+        session.isActive = false;
+        await this.sessionRepository.update(session.id, session);
+      }
+    }
     const payload = { sub: user.id, email: user.email };
     const token = this.jwtService.sign(payload);
     await this.sessionRepository.create({
