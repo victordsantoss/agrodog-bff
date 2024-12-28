@@ -1,12 +1,21 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-strategy';
-import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Session } from 'src/database/entities/session.entity';
 
 @Injectable()
 export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt-auth') {
-  constructor(private readonly jwtService: JwtService) {
+  constructor(
+    @InjectRepository(Session, 'agrodog')
+    private readonly sessionRepository: Repository<Session>,
+  ) {
     super();
   }
 
@@ -22,12 +31,17 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt-auth') {
       throw new UnauthorizedException('Token inválido');
     }
 
-    // try {
-    //   const payload = this.jwtService.verify(token);
-    //   req.user = payload;
-    //   this.success(req.user, null);
-    // } catch (err) {
-    //   throw new UnauthorizedException('Token inválido ou expirado');
-    // }
+    this.sessionRepository
+      .findOne({ where: { token }, relations: { user: true } })
+      .then((session) => {
+        if (!session) {
+          return this.fail(new UnauthorizedException(), 401);
+        }
+
+        return this.success({ userId: session.user.id, token });
+      })
+      .catch(() => {
+        throw new NotFoundException('Usuário não encontrado');
+      });
   }
 }

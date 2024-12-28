@@ -19,6 +19,14 @@ export class Session {
   token: string;
 
   @Column({
+    name: 'is_active',
+    type: 'boolean',
+    default: true,
+    comment: 'Status da sessão',
+  })
+  isActive: boolean;
+
+  @Column({
     name: 'start_date',
     type: 'timestamp',
     nullable: false,

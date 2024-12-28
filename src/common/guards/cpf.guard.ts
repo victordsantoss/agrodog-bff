@@ -4,7 +4,7 @@ import {
   ExecutionContext,
   Injectable,
 } from '@nestjs/common';
-import { CpfValidator } from '../utils/cpf.utils';
+import { CpfValidator } from '../core/utils/cpf.utils';
 
 @Injectable()
 export class CpfGuard implements CanActivate {

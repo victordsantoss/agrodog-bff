@@ -10,6 +10,7 @@ import { IPasswordService } from 'src/modules/password/services/password.interfa
 import { JwtService } from '@nestjs/jwt';
 import { Cache } from '@nestjs/cache-manager';
 import { ISessionRepository } from '../repositories/session.repository.interface';
+import { AuthenticatedUserRequestDto } from 'src/common/core/dtos/auth.request.dto';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -38,6 +39,10 @@ export class AuthService implements IAuthService {
       throw new UnauthorizedException('Email ou senha inválidos');
     }
 
+    //    const existingSession = await this.sessionRepository.findOne({
+    //   where: { user },
+    // });
+
     const payload = { sub: user.id, email: user.email };
     const token = this.jwtService.sign(payload);
     await this.sessionRepository.create({
@@ -48,23 +53,27 @@ export class AuthService implements IAuthService {
     return token;
   }
 
-  public async logout(userId: string, token: string): Promise<boolean> {
-    const user = await this.userRepository.findOneBy('id', userId);
-
-    if (!user) {
-      throw new NotFoundException('Usuário não encontrado');
-    }
-
-    const tokenExpiration = this.jwtService.decode(token)['exp'];
+  public async logout(
+    authenticatedUserData: AuthenticatedUserRequestDto,
+  ): Promise<boolean> {
+    const tokenExpiration = this.jwtService.decode(authenticatedUserData.token)[
+      'exp'
+    ];
     await this.cacheManager.set(
-      `blacklist:${token}`,
+      `blacklist:${authenticatedUserData.token}`,
       true,
       tokenExpiration - Math.floor(Date.now() / 1000),
     );
 
-    // AQUI BUSCAR A SESSAO PELO TOKEN E ATUALIZAR O ENDDATE
+    const currSession = await this.sessionRepository.findOneBy(
+      'token',
+      authenticatedUserData.token,
+    );
 
+    currSession.endDate = new Date();
+    currSession.isActive = false;
 
+    await this.sessionRepository.update(currSession.id, currSession);
     return true;
   }
 }

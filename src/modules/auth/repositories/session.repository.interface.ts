@@ -8,4 +8,4 @@ export interface ISessionRepository
     Session,
     CreateSessionRequestDto,
     UpdateSessionRequestDto
-  > { }
+  > {}

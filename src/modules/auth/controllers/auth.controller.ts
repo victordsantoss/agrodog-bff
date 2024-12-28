@@ -10,13 +10,14 @@ import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { LoginRequestDto } from '../dtos/auth/login.request.dto';
 import { IAuthService } from '../services/auth.interface';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
+import { AuthenticatedUserRequestDto } from 'src/common/core/dtos/auth.request.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     @Inject('IAuthService')
     private readonly authService: IAuthService,
-  ) {}
+  ) { }
 
   @Post('login')
   @ApiOperation({ summary: 'Autenticar usuário' })
@@ -35,8 +36,9 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Usuário deslogado com sucesso.' })
   @ApiResponse({ status: 400, description: 'Erro de logout.' })
   @UseGuards(JwtAuthGuard)
-  async logout(@Request() req: any): Promise<any> {
-    console.log('req.user:', req.user); // Mostra o usuário autenticado
-    return { message: 'Logout realizado com sucesso' };
+  async logout(
+    @Request() req: { user: AuthenticatedUserRequestDto },
+  ): Promise<boolean> {
+    return this.authService.logout(req.user);
   }
 }
