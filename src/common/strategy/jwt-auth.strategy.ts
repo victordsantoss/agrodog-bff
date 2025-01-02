@@ -23,25 +23,29 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt-auth') {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-      throw new UnauthorizedException('Token não fornecido');
+      return this.error(new UnauthorizedException('Token não fornecido'));
     }
 
     const token = authHeader.split(' ')[1];
     if (!token) {
-      throw new UnauthorizedException('Token inválido');
+      return this.error(new UnauthorizedException('Token inválido'));
     }
 
     this.sessionRepository
-      .findOne({ where: { token }, relations: { user: true } })
+      .findOne({ where: { token, isActive: true }, relations: { user: true } })
       .then((session) => {
         if (!session) {
-          return this.fail(new UnauthorizedException(), 401);
+          return this.error(
+            new UnauthorizedException(
+              'Sessão expirada. Autentique-se novamente',
+            ),
+          );
         }
 
         return this.success({ userId: session.user.id, token });
       })
       .catch(() => {
-        throw new NotFoundException('Usuário não encontrado');
+        return this.error(new NotFoundException('Usuário não encontrado'));
       });
   }
 }
