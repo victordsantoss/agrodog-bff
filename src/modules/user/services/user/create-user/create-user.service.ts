@@ -1,7 +1,7 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { ICreateUserRequestDto } from '../../../dtos/user/create-user.request.dto';
 import { IUserRepository } from '../../../repositories/user/user.repository.interface';
-import { UserResponseDto } from '../../../dtos/user/user.response.dto';
+import { IUserResponseDto } from '../../../dtos/user/user.response.dto';
 import { User } from 'src/database/entities/user.entity';
 import { ICreateUserService } from './create-user.service.interface';
 import { IPasswordService } from 'src/modules/password/services/password.interface';
@@ -48,12 +48,14 @@ export class CreateUserService implements ICreateUserService {
     }
   }
 
-  private normalizeResponse(user: User): UserResponseDto {
+  private normalizeResponse(user: User): IUserResponseDto {
     return {
-      id: user.id,
       name: user.name,
       email: user.email,
+      cpf: user.cpf,
       role: user.role,
+      provider: user.provider,
+      birthDate: user.birthDate,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };

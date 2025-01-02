@@ -11,7 +11,7 @@ import {
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CpfGuard } from '../../../../common/guards/cpf.guard';
 import { ICreateUserRequestDto } from '../../dtos/user/create-user.request.dto';
-import { UserResponseDto } from '../../dtos/user/user.response.dto';
+import { IUserResponseDto } from '../../dtos/user/user.response.dto';
 import { ICreateUserService } from 'src/modules/user/services/user/create-user/create-user.service.interface';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
 import { AuthenticatedUserRequestDto } from 'src/common/core/dtos/auth.request.dto';
@@ -37,7 +37,7 @@ export class UserController {
   @UseGuards(CpfGuard)
   async create(
     @Body() userData: ICreateUserRequestDto,
-  ): Promise<UserResponseDto> {
+  ): Promise<IUserResponseDto> {
     return await this.createUserService.perform(userData);
   }
 
@@ -49,9 +49,9 @@ export class UserController {
   })
   @ApiResponse({ status: 400, description: 'Erro de busca.' })
   @UseGuards(JwtAuthGuard)
-  async logout(
+  async getAuthenticatedUser(
     @Request() req: { user: AuthenticatedUserRequestDto },
-  ): Promise<UserResponseDto> {
+  ): Promise<IUserResponseDto> {
     return this.getAuthenticatedUserService.perform(req.user.token);
   }
 }

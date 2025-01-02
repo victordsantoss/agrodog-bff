@@ -4,7 +4,7 @@ import { IUserRepository } from 'src/modules/user/repositories/user/user.reposit
 import { IPasswordService } from 'src/modules/password/services/password.interface';
 import { ConflictException } from '@nestjs/common';
 import { ICreateUserRequestDto } from '../../../dtos/user/create-user.request.dto';
-import { UserResponseDto } from '../../../dtos/user/user.response.dto';
+import { IUserResponseDto } from '../../../dtos/user/user.response.dto';
 import { User } from 'src/database/entities/user.entity';
 import { faker } from '@faker-js/faker/.';
 describe('CreateUserService', () => {
@@ -83,7 +83,7 @@ describe('CreateUserService', () => {
         role: mockUserResponse.role,
         createdAt: mockUserResponse.createdAt,
         updatedAt: mockUserResponse.updatedAt,
-      } as UserResponseDto);
+      } as IUserResponseDto);
     });
 
     it('should throw ConflictException if email already exists', async () => {
@@ -128,7 +128,7 @@ describe('CreateUserService', () => {
         role: mockUserResponse.role,
         createdAt: mockUserResponse.createdAt,
         updatedAt: mockUserResponse.updatedAt,
-      } as UserResponseDto);
+      } as IUserResponseDto);
     });
   });
 });

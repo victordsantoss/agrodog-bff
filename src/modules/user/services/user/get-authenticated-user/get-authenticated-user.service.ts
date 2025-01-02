@@ -1,6 +1,5 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { IGetAuthenticatedUserService } from './get-authenticated-user.interface';
-import { UserResponseDto } from 'src/modules/user/dtos/user/user.response.dto';
 import { ISessionRepository } from 'src/modules/auth/repositories/session.repository.interface';
 
 @Injectable()
@@ -12,7 +11,7 @@ export class GetAuthenticatedUserService
     private readonly sessionRepository: ISessionRepository,
   ) {}
 
-  async perform(token: string): Promise<UserResponseDto> {
+  async perform(token: string): Promise<any> {
     return this.findActiveUserByToken(token);
   }
 
@@ -24,7 +23,6 @@ export class GetAuthenticatedUserService
         `Token inválido ou sessão inativa. Verifique se o token fornecido é válido e tente novamente.`,
       );
     }
-
     return user;
   }
 }

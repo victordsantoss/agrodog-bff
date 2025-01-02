@@ -1,5 +1,5 @@
-import { UserResponseDto } from 'src/modules/user/dtos/user/user.response.dto';
+import { IUserResponseDto } from 'src/modules/user/dtos/user/user.response.dto';
 
 export interface IGetAuthenticatedUserService {
-  perform(token: string): Promise<UserResponseDto>;
+  perform(token: string): Promise<IUserResponseDto>;
 }
