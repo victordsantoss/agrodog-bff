@@ -3,7 +3,7 @@ import { CreateUserService } from './create-user.service';
 import { IUserRepository } from 'src/modules/user/repositories/user/user.repository.interface';
 import { IPasswordService } from 'src/modules/password/services/password.interface';
 import { ConflictException } from '@nestjs/common';
-import { CreateUserRequestDto } from '../../../dtos/user/create-user.request.dto';
+import { ICreateUserRequestDto } from '../../../dtos/user/create-user.request.dto';
 import { UserResponseDto } from '../../../dtos/user/user.response.dto';
 import { User } from 'src/database/entities/user.entity';
 import { faker } from '@faker-js/faker/.';
@@ -28,7 +28,7 @@ describe('CreateUserService', () => {
     email: mockUserResponse.email,
     password: mockUserResponse.password,
     cpf: mockUserResponse.cpf,
-  } as CreateUserRequestDto;
+  } as ICreateUserRequestDto;
 
   beforeEach(async () => {
     const mockUserRepository: Partial<IUserRepository> = {

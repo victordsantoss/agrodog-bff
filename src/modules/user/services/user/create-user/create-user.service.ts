@@ -1,5 +1,5 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { CreateUserRequestDto } from '../../../dtos/user/create-user.request.dto';
+import { ICreateUserRequestDto } from '../../../dtos/user/create-user.request.dto';
 import { IUserRepository } from '../../../repositories/user/user.repository.interface';
 import { UserResponseDto } from '../../../dtos/user/user.response.dto';
 import { User } from 'src/database/entities/user.entity';
@@ -18,7 +18,7 @@ export class CreateUserService implements ICreateUserService {
     private readonly passwordService: IPasswordService,
   ) {}
 
-  async perform(userData: CreateUserRequestDto): Promise<any> {
+  async perform(userData: ICreateUserRequestDto): Promise<any> {
     await this.findUserByEmail(userData.email);
     await this.findUserByCpf(userData.cpf);
     userData.password = await this.passwordService.createHash(
