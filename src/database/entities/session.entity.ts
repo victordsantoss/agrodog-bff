@@ -43,7 +43,7 @@ export class Session {
   endDate: Date;
 
   /**
-   * RELACIONAMENTO
+   * RELACIONAMENTOS
    */
 
   @ManyToOne(() => User, (user) => user.sessions, { onDelete: 'CASCADE' })
