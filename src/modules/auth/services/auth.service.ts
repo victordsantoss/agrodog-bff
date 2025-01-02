@@ -23,7 +23,7 @@ export class AuthService implements IAuthService {
     @Inject('IPasswordService')
     private readonly passwordService: IPasswordService,
     private readonly jwtService: JwtService,
-  ) { }
+  ) {}
 
   public async login(email: string, password: string): Promise<string> {
     const user = await this.userRepository.findOneBy('email', email);
@@ -39,9 +39,8 @@ export class AuthService implements IAuthService {
       throw new UnauthorizedException('Email ou senha inválidos');
     }
 
-    const existingSessions = await this.sessionRepository.findActiveSessions(
-      user.id,
-    );
+    const existingSessions =
+      await this.sessionRepository.findActiveSessionsByUserId(user.id);
 
     if (existingSessions.length > 0) {
       for (const session of existingSessions) {

@@ -1,6 +1,6 @@
 import { IBaseRepository } from 'src/common/core/repositories/base.repository.interface';
 import { User } from 'src/database/entities/user.entity';
-import { CreateUserRequestDto } from '../../dtos/user/create-user.request.dto';
+import { ICreateUserRequestDto } from '../../dtos/user/create-user.request.dto';
 
 export interface IUserRepository
-  extends IBaseRepository<User, CreateUserRequestDto> {}
+  extends IBaseRepository<User, ICreateUserRequestDto> {}

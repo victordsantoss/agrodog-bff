@@ -9,5 +9,6 @@ export interface ISessionRepository
     CreateSessionRequestDto,
     UpdateSessionRequestDto
   > {
-  findActiveSessions(userId: string): Promise<Session[]>;
+  findActiveSessionsByUserId(userId: string): Promise<Session[]>;
+  findActiveUserByToken(token: string): Promise<Session>;
 }

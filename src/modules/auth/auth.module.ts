@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
 import { UserModule } from '../user/user.module';
@@ -16,7 +16,7 @@ import { SessionRepository } from './repositories/session.repository';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
     }),
-    UserModule,
+    forwardRef(() => UserModule),
     PasswordModule,
   ],
   controllers: [AuthController],
@@ -30,5 +30,6 @@ import { SessionRepository } from './repositories/session.repository';
       useClass: SessionRepository,
     },
   ],
+  exports: ['ISessionRepository'],
 })
 export class AuthModule {}
