@@ -8,12 +8,14 @@ import { CommonModule } from 'src/common/common.module';
 import { PasswordModule } from '../password/password.module';
 import { AuthModule } from '../auth/auth.module';
 import { GetAuthenticatedUserService } from './services/user/get-authenticated-user/get-authenticated-user.service';
+import { AccessControlModule } from '../access-control/access-control.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User], 'agrodog'),
     CommonModule,
     PasswordModule,
+    AccessControlModule,
     forwardRef(() => AuthModule),
   ],
   controllers: [UserController],

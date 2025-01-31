@@ -1,8 +1,10 @@
+import { Role } from 'src/database/entities/role.entity';
+
 export interface IUserResponseDto {
   name: string;
   email: string;
   cpf: string;
-  role: string;
+  role: Role;
   provider: string | null;
   birthDate: Date;
   createdAt: Date;

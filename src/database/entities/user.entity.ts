@@ -6,10 +6,12 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Address } from './address.entity';
 import { Phone } from './phone.entity';
 import { Session } from './session.entity';
+import { Role } from './role.entity';
 
 @Entity({ name: 'tb_user' })
 export class User {
@@ -56,15 +58,6 @@ export class User {
     comment: 'Senha criptografada do usuário',
   })
   password: string;
-
-  @Column({
-    name: 'role',
-    type: 'enum',
-    enum: ['ADMIN', 'USER'],
-    default: 'USER',
-    comment: 'Papel do usuário no sistema',
-  })
-  role: string;
 
   @Column({
     name: 'is_active',
@@ -123,4 +116,7 @@ export class User {
 
   @OneToMany(() => Session, (session) => session.user, { cascade: true })
   sessions: Session[];
+
+  @ManyToOne(() => Role, (role) => role.users, { onDelete: 'SET NULL' })
+  role: Role;
 }

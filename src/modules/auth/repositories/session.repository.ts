@@ -40,7 +40,7 @@ export class SessionRepository
           name: true,
           email: true,
           cpf: true,
-          role: true,
+          // role: true,
           provider: true,
           birthDate: true,
           createdAt: true,

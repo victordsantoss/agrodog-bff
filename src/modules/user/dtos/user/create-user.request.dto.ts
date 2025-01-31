@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsEmail, Length } from 'class-validator';
+import { IsString, IsEmail, Length, IsOptional } from 'class-validator';
+import { Role } from 'src/database/entities/role.entity';
 
 export class ICreateUserRequestDto {
   @ApiProperty({
@@ -14,6 +15,12 @@ export class ICreateUserRequestDto {
   })
   @IsEmail()
   email: string;
+
+  @ApiProperty({
+    description: 'Perfil do usuário',
+  })
+  @IsOptional()
+  role?: Role;
 
   @ApiProperty({
     description: 'CPF do usuário',

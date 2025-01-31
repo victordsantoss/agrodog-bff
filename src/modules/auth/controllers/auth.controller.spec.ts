@@ -5,7 +5,6 @@ import { faker } from '@faker-js/faker';
 
 describe('AuthController', () => {
   let controller: AuthController;
-  let authService: IAuthService;
 
   const mockAuthService: Partial<IAuthService> = {
     login: jest
@@ -25,7 +24,6 @@ describe('AuthController', () => {
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
-    authService = module.get<IAuthService>('IAuthService');
   });
 
   it('should be defined', () => {

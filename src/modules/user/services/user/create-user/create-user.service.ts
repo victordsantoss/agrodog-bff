@@ -5,6 +5,8 @@ import { IUserResponseDto } from '../../../dtos/user/user.response.dto';
 import { User } from 'src/database/entities/user.entity';
 import { ICreateUserService } from './create-user.service.interface';
 import { IPasswordService } from 'src/modules/password/services/password.interface';
+import { IGetRoleService } from 'src/modules/access-control/services/role/get-role/get-role.service.interface';
+import { RoleTypes } from 'src/database/entities/role.entity';
 
 @Injectable()
 export class CreateUserService implements ICreateUserService {
@@ -16,6 +18,8 @@ export class CreateUserService implements ICreateUserService {
     private readonly userRepository: IUserRepository,
     @Inject('IPasswordService')
     private readonly passwordService: IPasswordService,
+    @Inject('IGetRoleService')
+    private readonly getRoleService: IGetRoleService,
   ) {}
 
   async perform(userData: ICreateUserRequestDto): Promise<any> {
@@ -24,6 +28,8 @@ export class CreateUserService implements ICreateUserService {
     userData.password = await this.passwordService.createHash(
       userData.password,
     );
+    const role = await this.getRoleService.perform(RoleTypes.USER);
+    userData.role = role;
     const createdUser = await this.userRepository.create(userData);
     return this.normalizeResponse(createdUser);
   }
