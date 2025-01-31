@@ -8,8 +8,7 @@ import { IGetAuthenticatedUserResponseDto } from 'src/modules/user/dtos/user/get
 @Injectable()
 export class SessionRepository
   extends BaseRepository<Session>
-  implements ISessionRepository
-{
+  implements ISessionRepository {
   constructor(dataSource: DataSource) {
     super(dataSource, Session);
   }
@@ -34,17 +33,46 @@ export class SessionRepository
         endDate: null,
         isActive: true,
       },
-      relations: ['user'],
+      relations: [
+        'user',
+        'user.role',
+        'user.role.roleFuncionalities',
+        'user.role.roleFuncionalities.funcionality',
+        'user.role.roleFuncionalities.funcionality.resources',
+      ],
       select: {
+        id: true,
+        token: true,
+        isActive: true,
+        startDate: true,
+        endDate: true,
         user: {
           name: true,
           email: true,
           cpf: true,
-          // role: true,
           provider: true,
           birthDate: true,
           createdAt: true,
           updatedAt: true,
+          role: {
+            name: true,
+            roleFuncionalities: {
+              id: true,
+              isActive: true,
+              funcionality: {
+                id: true,
+                name: true,
+                url: true,
+                isActive: true,
+                resources: {
+                  id: true,
+                  name: true,
+                  description: true,
+                  isActive: true,
+                },
+              },
+            },
+          },
         },
       },
     });

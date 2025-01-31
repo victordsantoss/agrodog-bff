@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from './user.entity';
 
 @Entity({ name: 'tb_session' })
@@ -47,5 +53,9 @@ export class Session {
    */
 
   @ManyToOne(() => User, (user) => user.sessions, { onDelete: 'CASCADE' })
+  @JoinColumn({
+    name: 'id_user',
+    referencedColumnName: 'id',
+  })
   user: User;
 }

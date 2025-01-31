@@ -7,11 +7,17 @@ import {
   DeleteDateColumn,
   OneToMany,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Address } from './address.entity';
 import { Phone } from './phone.entity';
 import { Session } from './session.entity';
 import { Role } from './role.entity';
+
+
+export enum ProviderTypes {
+  LOCAL = 'LOCAL',
+}
 
 @Entity({ name: 'tb_user' })
 export class User {
@@ -69,12 +75,12 @@ export class User {
 
   @Column({
     name: 'provider',
-    type: 'varchar',
-    length: 50,
-    nullable: true,
+    enum: ProviderTypes,
+    default: ProviderTypes.LOCAL,
+    nullable: false,
     comment: 'Provedor de autenticação (e.g., local, Google, Facebook)',
   })
-  provider: string;
+  provider: ProviderTypes;
 
   @Column({
     name: 'birth_date',
@@ -117,6 +123,10 @@ export class User {
   @OneToMany(() => Session, (session) => session.user, { cascade: true })
   sessions: Session[];
 
-  @ManyToOne(() => Role, (role) => role.users, { onDelete: 'SET NULL' })
+  @ManyToOne(() => Role, (role) => role.users)
+  @JoinColumn({
+    name: 'id_role',
+    referencedColumnName: 'id',
+  })
   role: Role;
 }

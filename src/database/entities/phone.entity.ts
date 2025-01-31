@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 @Entity({ name: 'tb_phone' })
@@ -51,5 +52,9 @@ export class Phone {
    * RELACIONAMENTOS
    */
   @ManyToOne(() => User, (user) => user.phones, { onDelete: 'CASCADE' })
+  @JoinColumn({
+    name: 'id_user',
+    referencedColumnName: 'id',
+  })
   user: User;
 }

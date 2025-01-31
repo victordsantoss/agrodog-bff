@@ -6,8 +6,8 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { User } from './user.entity';
 import { RoleFuncionality } from './role-funcionality.entity';
+import { Resource } from './resource.entity';
 
 export enum RoleTypes {
   SADMIN = 'SADMIN',
@@ -17,21 +17,31 @@ export enum RoleTypes {
   GUEST = 'GUEST',
 }
 
-@Entity({ name: 'tb_role' })
-export class Role {
+@Entity({ name: 'tb_funcionality' })
+export class Funcionality {
   @PrimaryGeneratedColumn('uuid', {
     name: 'id',
-    comment: 'ID único da Perfil (UUID)',
+    comment: 'ID único da funcionalidade (UUID)',
   })
   id: string;
 
   @Column({
-    type: 'enum',
-    enum: RoleTypes,
-    default: RoleTypes.USER,
-    comment: 'Nome do perfil identificador do usuário',
+    name: 'name',
+    type: 'varchar',
+    length: 255,
+    nullable: false,
+    comment: 'Nome da funcionalidade',
   })
-  name: RoleTypes;
+  name: string;
+
+  @Column({
+    name: 'url',
+    type: 'varchar',
+    length: 255,
+    nullable: false,
+    comment: 'Url da funcionalidade',
+  })
+  url: string;
 
   @Column({
     name: 'is_active',
@@ -58,12 +68,13 @@ export class Role {
   /**
    * RELACIONAMENTOS
    */
-  @OneToMany(() => User, (user) => user.role)
-  users: User[];
 
   @OneToMany(
     () => RoleFuncionality,
-    (roleFuncionality) => roleFuncionality.role,
+    (roleFuncionality) => roleFuncionality.funcionality,
   )
   roleFuncionalities: RoleFuncionality[];
+
+  @OneToMany(() => Resource, (resource) => resource.funcionality)
+  resources: Resource[];
 }

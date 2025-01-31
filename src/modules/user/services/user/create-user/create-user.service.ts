@@ -20,7 +20,7 @@ export class CreateUserService implements ICreateUserService {
     private readonly passwordService: IPasswordService,
     @Inject('IGetRoleService')
     private readonly getRoleService: IGetRoleService,
-  ) {}
+  ) { }
 
   async perform(userData: ICreateUserRequestDto): Promise<any> {
     await this.findUserByEmail(userData.email);
@@ -28,7 +28,7 @@ export class CreateUserService implements ICreateUserService {
     userData.password = await this.passwordService.createHash(
       userData.password,
     );
-    const role = await this.getRoleService.perform(RoleTypes.USER);
+    const role = await this.getRoleService.perform(RoleTypes.ADMIN);
     userData.role = role;
     const createdUser = await this.userRepository.create(userData);
     return this.normalizeResponse(createdUser);

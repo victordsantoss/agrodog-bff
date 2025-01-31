@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 
@@ -98,5 +99,9 @@ export class Address {
    */
 
   @ManyToOne(() => User, (user) => user.addresses, { onDelete: 'CASCADE' })
+  @JoinColumn({
+    name: 'id_user',
+    referencedColumnName: 'id',
+  })
   user: User;
 }
