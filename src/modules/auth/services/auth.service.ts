@@ -10,7 +10,7 @@ import { IPasswordService } from 'src/modules/password/services/password.interfa
 import { JwtService } from '@nestjs/jwt';
 import { Cache } from '@nestjs/cache-manager';
 import { ISessionRepository } from '../repositories/session.repository.interface';
-import { AuthenticatedUserRequestDto } from 'src/common/core/dtos/auth.request.dto';
+import { IAuthenticatedUserRequestDto } from 'src/common/core/dtos/auth.request.dto';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -23,7 +23,7 @@ export class AuthService implements IAuthService {
     @Inject('IPasswordService')
     private readonly passwordService: IPasswordService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   public async login(email: string, password: string): Promise<string> {
     const user = await this.userRepository.findOneBy('email', email);
@@ -60,7 +60,7 @@ export class AuthService implements IAuthService {
   }
 
   public async logout(
-    authenticatedUserData: AuthenticatedUserRequestDto,
+    authenticatedUserData: IAuthenticatedUserRequestDto,
   ): Promise<boolean> {
     const tokenExpiration = this.jwtService.decode(authenticatedUserData.token)[
       'exp'

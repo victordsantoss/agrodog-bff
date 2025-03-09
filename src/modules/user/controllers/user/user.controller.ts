@@ -14,7 +14,7 @@ import { ICreateUserRequestDto } from '../../dtos/user/create-user.request.dto';
 import { IUserResponseDto } from '../../dtos/user/user.response.dto';
 import { ICreateUserService } from 'src/modules/user/services/user/create-user/create-user.service.interface';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
-import { AuthenticatedUserRequestDto } from 'src/common/core/dtos/auth.request.dto';
+import { IAuthenticatedUserRequestDto } from 'src/common/core/dtos/auth.request.dto';
 import { IGetAuthenticatedUserService } from '../../services/user/get-authenticated-user/get-authenticated-user.interface';
 
 @Controller('user')
@@ -24,7 +24,7 @@ export class UserController {
     private readonly createUserService: ICreateUserService,
     @Inject('IGetAuthenticatedUserService')
     private readonly getAuthenticatedUserService: IGetAuthenticatedUserService,
-  ) {}
+  ) { }
 
   @Post()
   @ApiOperation({ summary: 'Registrar um novo usuário' })
@@ -50,7 +50,7 @@ export class UserController {
   @ApiResponse({ status: 400, description: 'Erro de busca.' })
   @UseGuards(JwtAuthGuard)
   async getAuthenticatedUser(
-    @Request() req: { user: AuthenticatedUserRequestDto },
+    @Request() req: { user: IAuthenticatedUserRequestDto },
   ): Promise<IUserResponseDto> {
     return this.getAuthenticatedUserService.perform(req.user.token);
   }

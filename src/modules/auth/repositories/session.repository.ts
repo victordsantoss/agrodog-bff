@@ -58,17 +58,12 @@ export class SessionRepository
             name: true,
             roleFuncionalities: {
               id: true,
-              isActive: true,
               funcionality: {
-                id: true,
                 name: true,
                 url: true,
-                isActive: true,
                 resources: {
-                  id: true,
                   name: true,
                   description: true,
-                  isActive: true,
                 },
               },
             },
